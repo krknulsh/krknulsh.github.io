@@ -109,14 +109,25 @@ npm run preview
 
 ## Deployment
 
-현재 저장소에는 특정 배포 서비스에 종속된 설정이 포함되어 있지 않습니다.
+이 프로젝트는 GitHub Actions를 통해 GitHub Pages에 배포됩니다.
 
-`npm run build`로 생성되는 `dist/`를 정적 사이트 호스팅 서비스에 배포할 수 있습니다. 향후 배포 대상은 다음 중 하나를 선택할 수 있습니다.
+- Repository: `krknulsh/krknulsh.github.io`
+- Production URL: <https://krknulsh.github.io/>
+- Workflow: `.github/workflows/deploy.yml`
+- Trigger: `main` 브랜치 push 또는 수동 실행
 
-- Vercel
-- GitHub Pages
+배포 workflow는 다음 순서로 실행됩니다.
 
-GitHub Pages를 사용할 경우 repository 경로에 맞게 Vite의 `base` 설정을 추가로 확인해야 합니다. 실제 배포 주소와 설정은 확정된 뒤 문서에 추가합니다.
+1. 저장소 checkout
+2. Node.js 설정
+3. `npm ci`로 의존성 설치
+4. `npm run build` 실행
+5. `dist/`를 GitHub Pages artifact로 업로드
+6. `github-pages` environment에 배포
+
+이 저장소는 `https://krknulsh.github.io/` 루트에서 제공되는 사용자 페이지 저장소이므로 Vite의 `base`는 `/`입니다.
+
+처음 배포하기 전 GitHub 저장소의 **Settings → Pages → Build and deployment → Source**가 **GitHub Actions**로 설정되어 있는지 확인합니다.
 
 ## How to Update Content
 
