@@ -3,7 +3,7 @@
 ## Objective
 
 PORTFOLIO_MASTER.md와 PROJECT_DATA.md를 기반으로
-신입 Backend Developer Portfolio를 구현한다.
+신입 Software Engineer Portfolio를 구현한다.
 
 참고 사이트의 장점인
 "한 페이지 세로 스크롤 + 명확한 섹션 구조"는 참고하되
@@ -100,7 +100,7 @@ Keywords:
 - Minimal
 - Spacious
 - Modern
-- Backend Developer
+- Software Engineer
 
 Colors:
 - neutral background
@@ -196,6 +196,10 @@ AI Mental Care:
 - links
 
 가능하면 Skills 또한 data-driven 방식으로 만든다.
+
+Skills 및 프로젝트 카드의 기술 스택에는 개별 LLM 제품명이나 모델명을 나열하지 않는다.
+HyperCLOVA X, GPT, Gemini, Claude, Perplexity 등의 이름은 프로젝트 동작과 역할을 설명할 때만 사용하고,
+기술 스택에는 언어, 프레임워크, 데이터베이스, 인증, 인프라 및 일반 기술 범주만 표시한다.
 
 ---
 

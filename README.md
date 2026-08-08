@@ -2,7 +2,7 @@
 
 ## Overview
 
-신입 Backend Developer 지원을 위한 단일 페이지 포트폴리오입니다.
+신입 Software Engineer 지원을 위한 단일 페이지 포트폴리오입니다.
 
 프로젝트 경험을 중심으로 지원자의 역할과 사용 기술을 빠르게 확인할 수 있도록 구성했습니다. 콘텐츠와 UI를 분리하여 프로젝트, 기술, 프로필 정보를 화면 컴포넌트를 수정하지 않고 관리할 수 있습니다.
 
@@ -164,6 +164,9 @@ npm run preview
   type: TODO_PROJECT_TYPE,
   roles: [],
   skills: [],
+  result: TODO_VERIFIED_RESULT,
+  recognition: [],
+  plannedNotCompleted: [],
   coverImage: null,
   github: null,
   detail: null,

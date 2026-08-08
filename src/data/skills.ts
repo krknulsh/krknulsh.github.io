@@ -2,9 +2,14 @@ import type { SkillCategory } from '../types/portfolio'
 
 export const skillCategories: SkillCategory[] = [
   {
+    id: 'frontend',
+    title: 'Frontend',
+    skills: ['JavaScript', 'TypeScript', 'React', 'React Native', 'Expo', 'Expo Web'],
+  },
+  {
     id: 'backend',
     title: 'Backend',
-    skills: ['Python', 'FastAPI', 'REST API', 'OAuth 2.0', 'JWT'],
+    skills: ['Python', 'FastAPI', 'REST API', 'SQLAlchemy', 'APScheduler', 'Google OAuth', 'JWT'],
   },
   {
     id: 'database',
@@ -14,7 +19,7 @@ export const skillCategories: SkillCategory[] = [
   {
     id: 'cloud-devops',
     title: 'Cloud / DevOps',
-    skills: ['Docker', 'GCP Cloud Run', 'Cloud SQL', 'Memorystore', 'Firebase', 'Git', 'GitHub'],
+    skills: ['Docker', 'GCP Cloud Run', 'Cloud SQL', 'Memorystore', 'Serverless VPC Connector', 'Firebase Hosting'],
   },
   {
     id: 'ai-data',

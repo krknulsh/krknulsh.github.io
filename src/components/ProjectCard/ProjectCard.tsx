@@ -60,6 +60,29 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         )}
 
+        <div className="project-card__result">
+          <h4>Technical Result</h4>
+          <p>{project.result}</p>
+        </div>
+
+        {project.recognition && project.recognition.length > 0 && (
+          <div className="project-card__recognition">
+            <h4>Recognition</h4>
+            <ul>
+              {project.recognition.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {project.plannedNotCompleted.length > 0 && (
+          <details className="project-card__planned">
+            <summary>Planned but not completed</summary>
+            <ul>
+              {project.plannedNotCompleted.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </details>
+        )}
+
         {links.length > 0 && (
           <div className="project-card__links">
             {links.map((link) => (

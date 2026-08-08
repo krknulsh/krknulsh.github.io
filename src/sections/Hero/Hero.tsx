@@ -24,8 +24,8 @@ export function Hero() {
           />
         ) : (
           <div className="hero__placeholder" aria-hidden="true">
-            <span>Designing systems</span>
-            <strong>from API to cloud.</strong>
+            <span>Building solutions</span>
+            <strong>from idea to implementation.</strong>
           </div>
         )}
       </div>

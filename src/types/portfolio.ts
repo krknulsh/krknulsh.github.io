@@ -25,6 +25,9 @@ export type Project = {
   domain?: string
   roles: string[]
   skills: string[]
+  result: string
+  recognition?: string[]
+  plannedNotCompleted: string[]
   coverImage: string | null
   github: OptionalUrl
   detail: OptionalUrl

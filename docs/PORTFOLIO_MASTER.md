@@ -2,7 +2,7 @@
 
 ## 1. 목표
 
-이 포트폴리오는 신입 백엔드 개발자 지원을 위한 메인 포트폴리오다.
+이 포트폴리오는 신입 Software Engineer 지원을 위한 메인 포트폴리오다.
 
 핵심 메시지:
 
@@ -26,10 +26,9 @@
 
 초안:
 
-**Backend Developer**
+**Software Engineer**
 
-서비스의 기능 구현뿐 아니라  
-아키텍처 설계 → API 구현 → 데이터 저장 → 배포까지 연결하는 개발자를 지향합니다.
+문제를 구조화하고, 서비스의 설계부터 구현과 배포까지 연결하는 Software Engineer를 지향합니다.
 
 주요 경험:
 - FastAPI 기반 REST API
@@ -59,8 +58,8 @@
 
 우선순위:
 
-1. AI Mental Care Service
-2. Multi-LLM Resume Generation System
+1. Multi-LLM Resume Generation System
+2. AI Mental Care Service
 3. 추가 프로젝트가 생기면 동일한 카드 구조로 확장
 
 각 프로젝트 카드는 다음 정보만 노출:
@@ -190,6 +189,14 @@ Mobile:
 
 ```yaml
 projects:
+  - id: multi-llm-resume
+    title: Multi-LLM Resume Generator
+    period: 2025.03 - 2025.11
+    team_size: 5
+    summary: 여러 LLM이 생성과 평가를 반복하는 자기소개서 생성 시스템
+    github: TODO
+    image: assets/projects/multi-llm/cover.png
+
   - id: mental-care
     title: AI Mental Care
     period: 2025.09 - 2025.12
@@ -208,14 +215,6 @@ projects:
       - GCP
     github: TODO
     image: assets/projects/mental-care/cover.png
-
-  - id: multi-llm-resume
-    title: Multi-LLM Resume Generator
-    period: 2025.03 - 2025.11
-    team_size: 5
-    summary: 여러 LLM이 생성과 평가를 반복하는 자기소개서 생성 시스템
-    github: TODO
-    image: assets/projects/multi-llm/cover.png
 ```
 
 ---
