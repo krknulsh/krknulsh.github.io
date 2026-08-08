@@ -14,8 +14,9 @@ export const profile: Profile = {
   ],
   profileImage: null,
   links: {
+    phone: '01043257003',
     github: null,
-    email: null,
+    email: 'esm9837@gmail.com',
     resume: null,
     blog: null,
     linkedIn: null,

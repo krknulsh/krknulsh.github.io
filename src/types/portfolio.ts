@@ -7,6 +7,7 @@ export type Profile = {
   highlights: string[]
   profileImage: string | null
   links: {
+    phone: string | null
     github: OptionalUrl
     email: OptionalUrl
     resume: OptionalUrl
@@ -27,7 +28,6 @@ export type Project = {
   skills: string[]
   result: string
   recognition?: string[]
-  plannedNotCompleted: string[]
   coverImage: string | null
   github: OptionalUrl
   detail: OptionalUrl
@@ -46,6 +46,11 @@ export type TimelineItem = {
   organization: string | null
   period: string | null
   description: string
+  details?: Array<{
+    title: string
+    items: string[]
+  }>
+  learning?: string
 }
 
 export type NavigationItem = {

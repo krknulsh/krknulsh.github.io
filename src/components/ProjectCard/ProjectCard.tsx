@@ -74,15 +74,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         )}
 
-        {project.plannedNotCompleted.length > 0 && (
-          <details className="project-card__planned">
-            <summary>Planned but not completed</summary>
-            <ul>
-              {project.plannedNotCompleted.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </details>
-        )}
-
         {links.length > 0 && (
           <div className="project-card__links">
             {links.map((link) => (

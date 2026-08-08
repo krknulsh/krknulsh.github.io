@@ -166,7 +166,6 @@ npm run preview
   skills: [],
   result: TODO_VERIFIED_RESULT,
   recognition: [],
-  plannedNotCompleted: [],
   coverImage: null,
   github: null,
   detail: null,

@@ -8,7 +8,7 @@ export function Experience() {
       <div className="container">
         <div className="section-heading-row">
           <span className="section-index">03</span>
-          <SectionTitle title="Experience / Research" />
+          <SectionTitle title="Research Experience" />
         </div>
         <TimelineList items={experiences} />
       </div>
