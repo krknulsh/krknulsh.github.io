@@ -4,8 +4,8 @@ export const education: TimelineItem[] = [
   {
     id: 'computer-engineering',
     title: 'Computer Engineering',
-    organization: null,
-    period: null,
+    organization: '강원대학교 Kangwon National University',
+    period: '2019.03 - 2026.02',
     description: '컴퓨터공학 전공',
   },
 ]
