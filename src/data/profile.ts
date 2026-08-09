@@ -12,7 +12,7 @@ export const profile: Profile = {
     'OAuth / JWT',
     'RAG 기반 AI 서비스 개발',
   ],
-  profileImage: '/assets/profile/profile.jpg',
+  profileImage: '/assets/profile/hero.jpg',
   links: {
     phone: '01043257003',
     github: 'https://github.com/krknulsh',
