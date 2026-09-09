@@ -22,7 +22,7 @@ export const projects: Project[] = [
       'JWT',
     ],
     result: 'Local 환경에서 로그인부터 생성·평가·사용자 요청 기반 재작성·저장·조회까지 주요 서비스 흐름의 정상 작동을 확인했습니다.',
-    recognition: ['2025 강원SW 페스티벌 출품', '강원대학교 IT대학 졸업작품 경진대회 장려상'],
+    recognition: ['2025 강원SW 페스티벌 출품', '졸업작품 경진대회 장려상'],
     coverImage: '/assets/projects/multi-llm-resume-generator/cover.png',
     github: 'https://github.com/krknulsh/LLMate_refactored',
     detail: null,

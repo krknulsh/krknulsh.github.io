@@ -1377,7 +1377,7 @@ Frontend 요청과 Backend Endpoint를 연결하여
 
 ## Award
 
-- 강원대학교 IT대학 졸업작품 경진대회 장려상
+- 졸업작품 경진대회 장려상
 
 ---
 
