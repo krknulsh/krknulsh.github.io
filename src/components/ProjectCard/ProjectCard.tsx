@@ -84,6 +84,38 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         )}
       </div>
+      <details className="project-card__details">
+        <summary>Technical case study</summary>
+        <div className="project-card__details-content">
+          <section>
+            <h4>Architecture</h4>
+            <ul>{project.caseStudy.architecture.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+          <section>
+            <h4>Technical Contribution</h4>
+            <ul>{project.caseStudy.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+          <section>
+            <h4>Troubleshooting</h4>
+            {project.caseStudy.troubleshooting.map((story) => (
+              <article className="troubleshooting" key={story.title}>
+                <h5>{story.title}</h5>
+                <dl>
+                  <div><dt>문제</dt><dd>{story.problem}</dd></div>
+                  <div><dt>분석</dt><dd><ul>{story.analysis.map((item) => <li key={item}>{item}</li>)}</ul></dd></div>
+                  <div><dt>변경</dt><dd><ul>{story.changes.map((item) => <li key={item}>{item}</li>)}</ul></dd></div>
+                  <div><dt>결과</dt><dd>{story.result}</dd></div>
+                  {story.limitation && <div><dt>한계</dt><dd>{story.limitation}</dd></div>}
+                </dl>
+              </article>
+            ))}
+          </section>
+          <section>
+            <h4>Verification & Limitations</h4>
+            <ul>{project.caseStudy.verification.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+        </div>
+      </details>
     </article>
   )
 }

@@ -30,7 +30,6 @@
 
 ## Priority B — 있으면 좋음
 
-- [ ] 프로필 사진
 - [ ] Resume PDF
 - [ ] Blog URL
 - [ ] LinkedIn URL
@@ -71,9 +70,8 @@ Multi-LLM 프로젝트는 위 질문 중
 
 빠르게 1차 버전을 만든다면 아래 4개만 있어도 된다.
 
-1. profile.png (없어도 됨)
-2. mental-care-cover.png
-3. mental-care-architecture.png
-4. multi-llm-cover.png
+1. mental-care-cover.png
+2. mental-care-architecture.png
+3. multi-llm-cover.png
 
 나머지는 이후 추가 가능하다.

@@ -1,9 +1,6 @@
-import { useState } from 'react'
 import { profile } from '../../data/profile'
 
 export function Hero() {
-  const [imageFailed, setImageFailed] = useState(false)
-
   return (
     <section id="about" className="section hero">
       <div className="container hero__layout">
@@ -15,19 +12,6 @@ export function Hero() {
             {profile.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
           </ul>
         </div>
-        {profile.profileImage && !imageFailed ? (
-          <img
-            className="hero__image"
-            src={profile.profileImage}
-            alt={`${profile.name ?? profile.title} 프로필`}
-            onError={() => setImageFailed(true)}
-          />
-        ) : (
-          <div className="hero__placeholder" aria-hidden="true">
-            <span>Building solutions</span>
-            <strong>from idea to implementation.</strong>
-          </div>
-        )}
       </div>
     </section>
   )

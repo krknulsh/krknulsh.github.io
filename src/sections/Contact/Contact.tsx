@@ -3,7 +3,6 @@ import { profile } from '../../data/profile'
 
 export function Contact() {
   const links = [
-    { label: 'Phone', value: profile.links.phone, url: profile.links.phone ? `tel:${profile.links.phone}` : null, external: false },
     { label: 'Email', value: profile.links.email, url: profile.links.email ? `mailto:${profile.links.email}` : null, external: false },
     { label: 'GitHub', value: 'GitHub', url: profile.links.github, external: true },
     { label: 'Resume', value: 'Resume', url: profile.links.resume, external: true },

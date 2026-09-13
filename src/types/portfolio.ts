@@ -5,9 +5,7 @@ export type Profile = {
   title: string
   introduction: string
   highlights: string[]
-  profileImage: string | null
   links: {
-    phone: string | null
     github: OptionalUrl
     email: OptionalUrl
     resume: OptionalUrl
@@ -32,6 +30,19 @@ export type Project = {
   github: OptionalUrl
   detail: OptionalUrl
   demo: OptionalUrl
+  caseStudy: {
+    architecture: string[]
+    contributions: string[]
+    troubleshooting: Array<{
+      title: string
+      problem: string
+      analysis: string[]
+      changes: string[]
+      result: string
+      limitation?: string
+    }>
+    verification: string[]
+  }
 }
 
 export type SkillCategory = {

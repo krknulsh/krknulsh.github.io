@@ -26,16 +26,15 @@
 
 초안:
 
-**Software Engineer**
+**Backend Engineer**
 
-문제를 구조화하고, 서비스의 설계부터 구현과 배포까지 연결하는 Software Engineer를 지향합니다.
+FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 배포 환경을 연결하는 Backend Engineer입니다.
 
 주요 경험:
-- FastAPI 기반 REST API
-- PostgreSQL / Redis / pgvector
-- Docker / GCP Cloud Run
-- OAuth / JWT
-- RAG 기반 AI 서비스 개발
+- Backend — Python · FastAPI · SQLAlchemy · Pydantic · Alembic
+- Data & Retrieval — PostgreSQL · Redis · pgvector · RAG
+- API & Authentication — REST · OpenAPI · Google OAuth · JWT
+- Infrastructure — Docker · Cloud Run · Cloud SQL · Memorystore
 
 표시 링크:
 - GitHub
@@ -44,7 +43,6 @@
 - Blog (있다면)
 
 필요 자료:
-- [ ] 프로필 사진 또는 대체 일러스트
 - [ ] GitHub URL
 - [ ] 이메일 주소
 - [ ] Resume 링크 또는 PDF

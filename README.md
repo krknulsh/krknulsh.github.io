@@ -32,7 +32,6 @@ portfolio/
 ├── docs/                          # 포트폴리오 원본 정보 및 작성 지침
 ├── public/
 │   └── assets/
-│       ├── profile/               # 프로필 이미지
 │       └── projects/              # 프로젝트별 이미지
 ├── src/
 │   ├── components/                # 재사용 가능한 UI 컴포넌트
@@ -184,23 +183,15 @@ npm run preview
 - 실제 프로젝트에서 사용한 것이 확인된 기술만 표시합니다.
 - 숙련도를 별점이나 퍼센트로 표현하지 않습니다.
 
-### Replace Images
+### Replace Project Images
 
 이미지는 `public/assets` 아래에서 관리합니다.
 
 ```text
 public/assets/
-├── profile/
-│   └── profile.png
 └── projects/
     └── <project-id>/
         └── cover.png
-```
-
-프로필 이미지를 적용하려면 `src/data/profile.ts`의 `profileImage`에 다음과 같이 공개 경로를 입력합니다.
-
-```ts
-profileImage: '/assets/profile/profile.png'
 ```
 
 프로젝트 대표 이미지는 해당 프로젝트의 `coverImage`에 입력합니다.
@@ -209,4 +200,4 @@ profileImage: '/assets/profile/profile.png'
 coverImage: '/assets/projects/<project-id>/cover.png'
 ```
 
-이미지 값이 `null`이거나 파일을 불러오지 못하면 broken image icon 대신 neutral placeholder가 표시됩니다. 프로젝트 placeholder에는 해당 프로젝트명이 표시됩니다.
+프로젝트 이미지 값이 `null`이거나 파일을 불러오지 못하면 broken image icon 대신 neutral placeholder가 표시됩니다. 프로젝트 placeholder에는 해당 프로젝트명이 표시됩니다.

@@ -4,26 +4,7 @@
 
 ---
 
-# 1. Profile
-
-필수는 아님.
-
-선택지:
-
-1. 깔끔한 증명/프로필 사진
-2. 자연스러운 상반신 사진
-3. 사진 없이 이름 + Typography Hero 구성
-
-필요:
-- [ ] profile.jpg 또는 profile.png
-
-추천:
-- 정사각형 또는 세로형
-- 배경이 복잡하지 않은 이미지
-
----
-
-# 2. AI Mental Care
+# 1. AI Mental Care
 
 ## 반드시 있으면 좋은 이미지
 
@@ -57,7 +38,7 @@
 
 ---
 
-# 3. Multi-LLM Resume Generator
+# 2. Multi-LLM Resume Generator
 
 현재 이미지 자료 필요.
 
@@ -69,7 +50,7 @@
 
 ---
 
-# 4. Link
+# 3. Link
 
 - [ ] GitHub Profile URL
 - [ ] AI Mental Care Repository URL
@@ -82,7 +63,7 @@
 
 ---
 
-# 5. Diagram Rule
+# 4. Diagram Rule
 
 다이어그램은 스타일을 통일한다.
 
@@ -101,13 +82,10 @@ README Diagram:
 
 ---
 
-# 6. Image Folder Convention
+# 5. Image Folder Convention
 
 ```text
 assets/
-├── profile/
-│   └── profile.png
-│
 └── projects/
     ├── mental-care/
     │   ├── cover.png
@@ -129,7 +107,7 @@ assets/
 
 ---
 
-# 7. 이미지가 없어도 개발 가능?
+# 6. 이미지가 없어도 개발 가능?
 
 가능하다.
 

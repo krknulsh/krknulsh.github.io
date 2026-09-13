@@ -1,6 +1,13 @@
 # Project Data
 
-이 파일은 Portfolio와 GitHub README에서 공통으로 참조할 프로젝트 사실 정보다.
+이 파일은 프로젝트 라이브러리로 이관하기 전의 통합 사실 기록이다.
+
+프로젝트별 최신 원본:
+
+- `docs/projects/ai-mental-care.md`
+- `docs/projects/daseo.md`
+
+새 사실과 정정은 프로젝트별 파일에 먼저 반영하고, 이 파일은 이관 검증이 끝날 때까지 legacy 자료로 보존한다.
 
 사실과 해석을 분리한다.
 확인되지 않은 수치나 성과는 임의로 추가하지 않는다.
@@ -8,7 +15,7 @@
 
 ## Global Data Rules
 
-이 파일은 Portfolio의 Single Source of Truth 역할을 한다.
+프로젝트별 Markdown이 각 프로젝트의 Single Source of Truth 역할을 한다.
 
 Codex는 이 파일에서 확인되지 않은 사실을 임의로 추론하거나 성과를 만들어내지 않는다.
 
@@ -64,6 +71,7 @@ Learning
 - Type: Team Project / Capstone Design
 - Domain: AI / Mental Care
 - My Role:
+  - Team Lead
   - 전체 서비스 아키텍처 초안 설계
   - Backend Development
   - Google OAuth / JWT Authentication
@@ -72,6 +80,24 @@ Learning
   - Frontend UI 배치 및 결과 시각화
   - 서비스 통합 및 리팩토링
   - GCP Cloud 배포 및 인프라 연결
+
+### README Verification
+
+- Source: <https://github.com/krknulsh/AI_MentalCare_Refactored>
+- Verified on: 2026-09-11
+- README 기준 공개 운영 인스턴스는 현재 없으며, 의료적 진단·치료가 아닌 비임상적 자기관리 지원 서비스다.
+- README가 명시한 개인 책임 범위는 `System Architecture`, `Backend Logic`, `RAG Pipeline`, `Cloud Deployment`다.
+- 아래의 세부 기술 규격은 README와 일치하도록 보강했다. 다만 수치 성과와 개인 기여의 깊이는 별도 증거 또는 사용자 인터뷰로 검증한다.
+
+### Local Code / Git Verification
+
+- 검증 소스: `C:\projects\mentalcare\mentalcare_BE`, `C:\projects\mentalcare\google_ai`
+- Backend Git 기록에서 사용자 식별 author의 commit은 45개이며, 전체 80개 중 alias를 제외한 보수적 집계다. 이 수치는 공개 성과가 아니라 소유권 확인용 내부 근거다.
+- 현재 blame 기준으로 `rag_service.py`, `inference_service.py`, `compose_service.py`, `embedding_service.py`, `auth.py`, `security.py`, `generate_routines.py`, `embed_routines.py`는 사용자가 직접 작성한 범위로 확인된다.
+- `chat_service.py`와 Frontend의 주 Chat 화면은 공동 작업 범위로 확인된다.
+- `scheduler.py`와 `generate_weekly_report.py`는 다른 팀원의 작성 범위다. Weekly Report와 APScheduler는 팀 구현 기능으로만 쓰고 개인 구현 성과로 쓰지 않는다.
+- 사용자 commit 기록에서 인증, DB 초기 구성, Redis / Docker, RAG, 루틴 생성·임베딩, 3단계 응답 구조, 배포·migration 수정이 확인된다.
+- Git 집계는 author alias와 병합 방식에 따라 달라질 수 있으므로 대외 문구에는 commit 비율 대신 담당 파일과 설계·변경 내용을 사용한다.
 
 ---
 
@@ -96,7 +122,7 @@ RAG 구조를 이용해 사전에 구축한 행동 루틴 데이터를 검색하
 ## One-line Summary
 
 사용자의 텍스트에서 감정과 상황을 분석하고,
-NHS·APA 기반 행동 루틴 데이터를 RAG와 Vector Search로 검색해
+정규화 문서 133건에서 생성한 셀프케어 루틴 310건을 RAG와 Vector Search로 검색해
 개인화된 행동 루틴과 대화형 응답을 제공하며,
 세션별 Daily Report와 기간별 Weekly Report까지 연결한 AI 멘탈 케어 서비스.
 
@@ -149,13 +175,33 @@ Expo Web / React Native
 
 #### External Routine Data
 
-- NHS 자료
-- APA 자료
-- 정신건강 및 행동 가이드 기반 행동 루틴 약 400건
+- 정규화 문서: 133건, `doc_id` 133개
+- 생성 루틴: 310건, `routine_id` 310개
+- 루틴 생성에 반영된 원본 문서: 121개
+- 루틴 소요시간 데이터 범위: 1~10분
+- 모든 루틴에 `source_url`, `title`, `description`, `steps`, `safety_notes`, `duration_min` 존재
+- Source domain: Verywell Mind, Healthline, HelpGuide, Psych Central, NHS,
+  Mental Health Foundation UK, Medical News Today, Harvard Health, Mayo Clinic, NIMH, WHO
+- 기존 기록의 `약 400건`과 `APA 참고`는 현재 저장된 JSONL에서는 확인되지 않아 공개 문구에서 제외한다.
+- 사용자가 생성 루틴을 직접 검수했으나, 일정 제약으로 명시적인 제외 기준과 중복 검사는 수행하지 못했다.
+- 이 데이터 구축의 1차 목표는 RAG용 vector search dataset과 저장 구조를 완성하는 것이었다.
 
 외부 자료를 그대로 LLM의 답변으로 사용하는 것이 아니라,
 서비스용 행동 루틴 데이터로 정리한 뒤 Embedding을 생성하여
 Vector Search와 RAG 추천에 활용했다.
+
+정제한 루틴은 감정·상황 태그로 일반화하고 1~10분 안에 수행 가능한
+비임상적 셀프케어 루틴으로 구조화했으며, 출처 URL을 함께 저장했다.
+
+### Runtime AI / Retrieval Specification
+
+- 실시간 감정·상황 분석 및 응답 구성: Gemini 2.5 Flash
+- 증분 세션 요약 및 주간 리포트: Gemini 2.5 Pro
+- Embedding: `text-embedding-004`, 768 dimensions
+- Search: pgvector cosine distance + IVFFlat index
+- Retrieval: 기본 상위 5개 후보 조회 후 대표 루틴 선택
+- Analysis output: `emotions`, `main_mood`, `situations`, `summary`, `emotion_confidence`, `situation_clarity`
+- LLM JSON parsing failure를 처리하는 fallback 적용
 
 ---
 
@@ -227,8 +273,10 @@ Google OAuth 기반 로그인 기능을 구현했다.
 - Google IdToken을 Backend로 전달
 - Backend에서 IdToken 검증
 - 기존 사용자 조회 또는 신규 사용자 생성
-- 서비스 이용을 위한 JWT 발급
+- 서비스 이용을 위한 access / refresh JWT 발급
 - JWT를 이용한 이후 요청의 인증 처리
+- Access token 기본 유효시간 30분, refresh token 기본 유효시간 7일
+- Web은 `localStorage`, Native는 Expo SecureStore에 token 저장
 
 정확한 표현:
 `Google OAuth 기반 로그인 및 JWT 인증 처리`
@@ -253,8 +301,11 @@ FastAPI REST API를 통해 데이터를 저장하고 조회하도록 구성했�
 
 ### 4. RAG-Based Routine Recommendation
 
-NHS와 APA 등의 자료를 기반으로
-약 400건의 정신건강 행동 루틴 데이터를 구축했다.
+11개 출처 도메인에서 정규화한 문서 133건을 바탕으로
+셀프케어 행동 루틴 310건을 생성했다.
+
+현재 JSONL에서 확인되는 수치는 문서 133건, 루틴 310건, 루틴 생성에 반영된 원본 문서 121건이다.
+기존 기록의 `약 400건`과 `APA 참고`는 현재 파일로 확인되지 않아 공개 문구에서 제외한다.
 
 루틴에는 다음과 같은 정보를 구조화했다.
 
@@ -270,6 +321,10 @@ NHS와 APA 등의 자료를 기반으로
 루틴 데이터를 Embedding한 뒤
 PostgreSQL의 pgvector를 이용해 Vector Search가 가능하도록 구성했다.
 
+- `text-embedding-004`로 768차원 벡터 생성
+- cosine distance와 IVFFlat index 사용
+- 사용자 맥락으로 상위 5개 후보를 조회한 뒤 대표 루틴 선택
+
 사용자의 감정 및 상황 분석 결과를 기반으로 관련 루틴을 검색하고,
 검색 결과와 사용자 상황을 LLM에 전달하여
 공감형 응답과 행동 루틴을 함께 제공하도록 구현했다.
@@ -282,10 +337,10 @@ PostgreSQL의 pgvector를 이용해 Vector Search가 가능하도록 구성했�
 세션 단위로 다음 상태를 관리했다.
 
 - 대화 기록
-- 현재 처리 상태
-- 마지막 분석 결과
-- 추가 정보 필요 여부
-- 보고서 생성 가능 여부
+- 증분 요약과 마지막 요약 위치
+- 현재 Pipeline 처리 상태
+- 마지막 감정 분석 결과
+- 추천 결과
 
 여러 API 요청 사이에서도 같은 대화 세션의 상태가 이어지도록 구성했다.
 
@@ -295,10 +350,13 @@ PostgreSQL의 pgvector를 이용해 Vector Search가 가능하도록 구성했�
 현재 세션의 대화 내용과 분석 결과를 이용해
 Session / Daily Report를 생성하도록 구현했다.
 
-또한 일정 기간의 데이터를 집계하여
+또한 팀이 일정 기간의 데이터를 집계하여
 Weekly Report를 생성하는 구조를 구현했다.
 
-Weekly Report의 주기적 생성은 APScheduler를 이용해 구성했다.
+Weekly Report의 주기적 생성은 다른 팀원이 APScheduler로 구성했다.
+개인 기여로는 관련 schema·통합 수정이 확인되며, scheduler와 report 생성 로직 자체를 직접 구현한 것으로 쓰지 않는다.
+
+README 기준 실행 시각은 매주 월요일 00:05(KST)다.
 
 ### 7. Frontend Integration
 
@@ -350,6 +408,8 @@ Cloud 환경 구성:
 
 ### Backend
 
+다음은 팀 프로젝트 전체 구현 범위다.
+
 - Python / FastAPI
 - REST API
 - Google IdToken 검증
@@ -373,12 +433,15 @@ Cloud 환경 구성:
 
 ### AI / Data
 
-- LLM API
+- Gemini 2.5 Flash
+- Gemini 2.5 Pro
+- `text-embedding-004`
 - Text-Based Emotion / Situation Analysis
 - RAG
 - Embedding
 - Vector Search
-- NHS / APA 기반 행동 루틴 약 400건 구축
+- 정규화 문서 133건에서 셀프케어 루틴 310건 생성, 이 중 원본 문서 121건이 루틴 생성에 반영됨
+- 모든 루틴에 출처 URL, 수행 단계, safety note, 1~10분 소요시간 저장
 
 ### Cloud / DevOps
 
@@ -418,7 +481,9 @@ Cloud 환경 구성:
 - JWT
 
 #### AI / Data
-- LLM API
+- Gemini 2.5 Flash
+- Gemini 2.5 Pro
+- `text-embedding-004` (768 dimensions)
 - RAG
 - Embedding
 - Vector Search
@@ -564,6 +629,7 @@ Authentication, AI Analysis, RAG, Database, Report 등
 - 개별 기능은 동작하지만 전체 Flow로 연결하면 일부 요청이 실패
 - Frontend와 Backend가 기대하는 Request / Response 형식이 불일치
 - Database Model 수정과 Migration이 반복됨
+- 배포·업데이트 과정에서 Alembic revision과 현재 Backend model 사이의 불일치가 반복됨
 - 기능 변경 시 다른 모듈에서도 연쇄적인 수정이 필요함
 
 #### Investigation
@@ -577,6 +643,7 @@ Authentication, AI Analysis, RAG, Database, Report 등
 - FastAPI Request / Response Schema
 - Backend 내부 Module I/O
 - Database Model
+- Alembic revision / 현재 적용 version
 - 저장되는 JSON / Field 구조
 - 다음 단계에서 기대하는 데이터 형식
 
@@ -590,13 +657,26 @@ API Contract와 Module Input / Output Schema를 충분히 세밀하게 고정하
 Frontend, Backend Module, Database가 서로 다른 구조를 예상하면서
 통합 단계에서 불일치가 발생했다.
 
+Schema를 충분히 고정하지 않은 채 model과 migration을 반복 변경하면서
+Alembic version과 현재 Backend가 기대하는 format도 함께 어긋났다.
+
 #### Solution
 
-- 주요 API의 Request / Response 구조 재정리
-- Frontend–Backend 데이터 흐름을 기준으로 Field 구조 통일
-- Database Model과 실제 API 데이터 구조 재검토
-- 기능 간 Interface를 다시 연결
-- 전체 서비스 Flow를 기준으로 Refactoring 진행
+- Pydantic request / response schema를 endpoint의 명시적 계약으로 사용
+- Frontend 공통 TypeScript type 정의
+- `NeedMoreInfoResponse`와 `RagSuccessResponse` 분리
+- `flag`, `can_create_report`, `message`, `card`의 의미와 반환 조건 통일
+- FastAPI OpenAPI 문서를 기준으로 연동 데이터 검증
+- 오류가 가리키는 migration code와 현재 Backend model을 대조해 revision과 field format을 일치시킴
+
+Git에서 확인되는 migration 대응:
+
+- `b9d0382`: `routines`가 없을 때만 생성하는 조건부 migration 추가
+- `f88b087`: `routines`의 key·column을 제거하려던 자동 생성 revision 삭제
+
+이는 촉박한 일정에서 DB 상태를 보존하기 위한 복구 조치였지만,
+적용된 migration 삭제나 `has_table` 기반 우회는 환경별 schema drift를 숨길 수 있다.
+성숙한 migration 설계 사례가 아니라 실패와 개선점을 함께 설명하는 사례로 사용한다.
 
 #### Result
 
@@ -604,6 +684,14 @@ Frontend Input부터 Backend 처리,
 Database 저장, RAG Recommendation, Report까지
 연결되는 전체 Flow의 데이터 구조를 정리하고
 통합 동작을 정상화했다.
+
+사용자는 팀원별 계정으로 기능을 확인했고 본인 기준 약 200회의 수동 검증을 수행했다고 회고했다.
+실행 log나 checklist로 집계한 수치는 아니므로 공개 시 `약 200회 반복 테스트`가 아니라
+`개발 과정에서 반복적인 수동 통합 검증`으로 표현한다.
+
+당시 API 실패가 HTTP 422였을 가능성을 회고했지만 정확한 log는 없다.
+422는 일반적으로 FastAPI request validation 실패를 뜻하며 Alembic revision 충돌과는 다른 계층이므로,
+증거 없이 두 문제를 하나의 원인으로 연결하지 않는다.
 
 #### Learning
 
@@ -616,6 +704,10 @@ Database 저장, RAG Recommendation, Report까지
 기능 목록만 나누는 것이 아니라
 모듈 사이에서 어떤 데이터가 어떤 형태로 이동하는지까지
 먼저 정의해야 한다는 기준을 갖게 되었다.
+
+다시 수행한다면 적용된 revision을 삭제하지 않고
+`alembic current / heads / history`로 DB와 code의 migration graph를 확인한 뒤,
+명시적인 forward migration과 staging rehearsal로 정합성을 검증한다.
 
 ---
 
@@ -645,21 +737,29 @@ PostgreSQL pgvector Schema의 Dimension이 맞지 않는 문제가 발생했다.
 
 #### Root Cause
 
-Embedding Model / Data 구성이 변경되는 과정에서
-새 Embedding Vector의 Dimension과
-기존 Database Vector Schema의 Dimension이 일치하지 않았다.
+초기 `routines.embedding` schema는 `vector(1536)`이었지만,
+최종 모델인 `text-embedding-004`는 768차원 벡터를 반환했다.
+모델 출력 차원과 pgvector column / index 차원이 일치하지 않았다.
+
+사용자 회고에 따르면 소스의 768·1536차원 혼용을 먼저 1536으로 맞췄으나
+실제 사용 흐름에서 응답이 지루하게 느껴질 정도로 느리다고 판단해 최종적으로 768차원으로 변경했다.
 
 #### Solution
 
-- 최종 사용할 Embedding Model 기준으로 Vector 구조 결정
-- PostgreSQL pgvector Schema를 해당 Dimension에 맞게 정리
-- 필요한 Embedding Data 재생성
-- 저장 → 검색 Flow 재검증
+- 기존 IVFFlat index 제거
+- Alembic migration으로 `vector(1536)`을 `vector(768)`로 변경
+- 기존 루틴을 `text-embedding-004`로 재임베딩
+- `vector_cosine_ops` 기반 IVFFlat index 재생성
+- application의 `EMBED_DIM`과 model definition을 768로 통일
 
 #### Result
 
-Embedding Data와 pgvector Schema의 Dimension을 일치시키고
-Vector Search Pipeline이 정상적으로 동작하는 것을 확인했다.
+Embedding model의 실제 출력과 DB schema를 768차원으로 통일해
+저장·검색 pipeline이 동작할 수 있는 조건을 맞췄다.
+
+추천 품질과 지연시간의 전후 수치는 측정하지 않았다.
+따라서 `성능을 N% 개선`이 아니라
+`수동 사용에서 응답 대기가 길다고 판단해 768차원으로 규격을 통일`로 표현한다.
 
 #### Learning
 
@@ -717,12 +817,11 @@ Cloud 환경에서 필요한 설정 차이가 복합적으로 존재했다.
 #### Solution
 
 - Cloud Run Log를 이용해 Application Start Failure 원인 확인
-- 필수 Environment Variable 정리
-- Container Port 및 실행 환경 점검
-- Cloud SQL과 Backend 연결 개별 검증
-- Redis 접근을 Serverless VPC Connector 기반으로 정리
-- Direct VPC와 Connector의 중복 / 충돌 설정 제거
-- Cloud SQL → Redis → API Flow를 단계적으로 검증
+- FastAPI container가 Cloud Run의 `$PORT`에서 실행되도록 구성
+- local / deploy 환경의 database URL, Redis URL, secret을 환경변수로 분리
+- Cloud SQL과 Memorystore 연결을 위한 VPC / connector 설정을 분리해 검증
+- Firebase Hosting origin을 CORS allowlist에 추가하고 API routing 점검
+- Alembic migration과 service start order를 배포 과정에 포함
 
 #### Result
 
@@ -777,7 +876,8 @@ Private Network, Managed Service Connection까지
 
 Data Result:
 
-- NHS / APA 자료 기반 행동 루틴 약 400건 구축
+- 정규화 문서 133건과 생성 루틴 310건을 현재 JSONL에서 확인
+- 생성 루틴에 반영된 원본 문서 121건과 고유 `routine_id` 310개를 확인
 - 구축한 루틴 데이터를 RAG 검색에 활용
 
 Deployment Result:
@@ -869,6 +969,18 @@ Cloud 환경에 실제 배포했지만
 `Cloud 배포 및 End-to-End 실행 경험`으로 표현하고,
 `대규모 운영 경험`, `고가용성 검증`, `Production Scale 검증` 등으로 과장하지 않는다.
 
+### Code-Verified Risks / Unverified Scope
+
+- RAG는 cosine distance 기준 상위 5개를 조회하지만 distance threshold와 metadata filter가 없다. 현재 대표 루틴은 조회 결과의 첫 항목이다.
+- Redis의 실제 session key에는 TTL 또는 명시적 종료 삭제가 확인되지 않는다. Redis read 실패 시 빈 상태로 진행하며, 상태 의존 기능은 비활성화될 수 있다.
+- APScheduler는 앱 process 내부에서 월요일 00:05(KST)에 실행된다. 영속 job store나 분산 lock이 없어 Cloud Run scale-to-zero에서는 누락되고 다중 instance에서는 중복될 위험이 있다.
+- 테스트 파일은 자동화된 회귀 테스트보다 수동 smoke script에 가깝고, 일부는 현재 response field와 맞지 않는다. Cloud E2E 동작은 README·기존 기록에 있으나 반복 가능한 체크리스트나 자동화 증거를 추가로 받아야 한다.
+- 안전 장치는 현재 코드 기준 prompt의 비진단·비치료 지침과 routine별 `safety_notes` 수준이다. 사용자는 위기 표현에서 자살예방센터 안내 또는 답변 회피가 동작했고 수동 확인 중 이탈을 보지 못했다고 회고했지만, 테스트 횟수는 적고 현재 소스에서 명시적인 위기 탐지·센터 연결 rule은 확인되지 않는다. 모델 자체 안전 동작이나 이전 prompt였을 가능성이 있어 구현 성과로 단정하지 않는다.
+- JWT refresh는 구현됐지만 server-side revoke / blacklist는 없다. 현재 security logging에는 decoded payload와 token 일부가 포함돼 운영 전 제거해야 한다.
+- Frontend의 routine response 처리와 Backend union response 사이에 재검증이 필요한 계약 차이가 남아 있다.
+- migration history에는 같은 table을 여러 단계에서 다시 생성하거나 1536·768차원 정의가 교차하는 흔적이 있다. 조건부 table 생성과 revision 삭제는 당시 복구 조치였지만 운영 환경에서는 schema drift를 만들 수 있다.
+- `C:\projects\mentalcare\google_ai\.env`가 Git 추적 대상이다. 실제 secret이 들어간 적이 있다면 Git 기록에서 지우는 것만으로 충분하지 않으므로 즉시 폐기·재발급하고 repository history 정리를 별도로 수행해야 한다.
+
 ---
 
 ## Portfolio Representation Rules
@@ -893,14 +1005,14 @@ Codex는 이 프로젝트를 Portfolio Card, Project Detail, GitHub README로 �
 - 행동 루틴 추천
 - Daily Report
 - Weekly Report
-- APScheduler
+- APScheduler 기반 Weekly Report scheduling `[팀 구현 기능; 개인 구현으로 쓰지 않음]`
 - Docker
 - Firebase Hosting
 - GCP Cloud Run
 - Cloud SQL
 - Memorystore
 - Serverless VPC Connector
-- NHS / APA 기반 약 400건 행동 루틴 데이터 구축
+- 정규화 문서 133건에서 생성한 셀프케어 루틴 310건
 - 실제 Cloud 환경 End-to-End Flow 확인
 
 ### Must NOT State as Implemented
@@ -913,6 +1025,7 @@ Codex는 이 프로젝트를 Portfolio Card, Project Detail, GitHub README로 �
 - Production Scale 성능 검증
 - 장기 운영 모니터링 체계
 - 근거 없는 성능 향상 수치
+- 위기 표현 대응의 신뢰성·완전성 검증 완료
 
 ### Preferred Terminology
 
@@ -953,6 +1066,28 @@ Codex는 이 프로젝트를 Portfolio Card, Project Detail, GitHub README로 �
   - UI/UX Flow Design
   - Authentication Integration
   - My Page / User Data Management UI
+  - Backend Authentication Refactoring
+
+### README Verification
+
+- Source: <https://github.com/krknulsh/LLMate_refactored>
+- Verified on: 2026-09-11
+- README가 명시한 주 역할은 Frontend Development다.
+- README가 명시한 개인 기여는 Google Login, My Page, Backend Authentication Refactoring이다.
+- Multi-LLM pipeline 전체는 팀 구현 범위이며, 각 Backend / prompt 단계의 개인 소유권은 별도 인터뷰로 확정한다.
+
+### Local Code / Git Verification
+
+- 검증 소스: `C:\projects\LLMate\LLMate_BE`, `C:\projects\LLMate\LLMate_FE`
+- Backend 전체 71개 commit 중 사용자 식별 author의 commit은 4개, Frontend 전체 97개 중 36개다. 이 수치는 공개 성과가 아니라 개인 소유권 확인용 내부 근거다.
+- 사용자 Backend commit으로 확인되는 작업은 My Page route/schema 통합, logout, access 만료·refresh flow, 2026년 Perplexity 복원이다.
+- 초기 Google `GET /auth/login`과 callback route는 다른 팀원의 commit `8181e19`(2025-04-29)에서 먼저 확인된다. 다만 초기 callback은 Google access token으로 user info를 조회하고 출력한 뒤 종료했으며, 로컬 사용자 저장과 service JWT 발급이 없어 애플리케이션 인증 체인이 완성되지 않았다.
+- commit `0eaeebd`(2025-09-09)에서 다른 팀원이 Google token 검증→사용자 조회·생성→service JWT 발급 흐름을 최종 반영했다.
+- 사용자는 같은 통합 장애를 다른 팀원과 독립적으로 분석했고, Google token과 service JWT의 역할 혼동 및 callback 미완성을 함께 확인해 수정했다고 회고했다. 현재 Git만으로 최종 callback 코드의 단독 작성은 입증되지 않으므로 `문제 진단 및 해결 참여`로 표현한다.
+- 사용자 commit `156178d`(2025-09-26)는 기존 login route에 refresh token cookie를 추가하고 `POST /auth/refresh`, logout cookie 제거, token 만료 처리를 보강한 변경이다.
+- 현재 `main.py`에는 같은 user router를 중복 include하고 별도의 `GET /auth/login`도 정의한 흔적이 있어 routing 구조가 정리된 상태라고 보기 어렵다.
+- 현재 My Page, login, user route는 공동 작업 범위이며, `useSessionTimer.js`는 현재 blame 기준 사용자 작성 범위다.
+- 2026년 Perplexity 복원은 원 프로젝트 기간 이후 작업으로 분리하고, 사용자가 원래 일정에 포함됐다고 확인하기 전에는 2025년 결과에 합치지 않는다.
 
 ---
 
@@ -1007,11 +1142,14 @@ Human-in-the-loop Multi-LLM Pipeline 기반 자기소개서 작성 시스템.
 #### External Context
 - 지원 기업 정보
 - 지원 직무 관련 정보
-- Perplexity를 통한 외부 정보 보강
+- Perplexity를 통한 외부 정보 보강 `[2026년 원 프로젝트 이후 복원]`
 
 사용자 프로필과 경험 정보는 서비스 내부 저장 데이터를 활용하고,
-지원 기업 및 직무에 대한 외부 정보는 Perplexity를 통해 보강하여
+현재 리팩토링본은 지원 기업 및 직무에 대한 외부 정보를 Perplexity로 보강하여
 자기소개서 생성 Context를 구성했다.
+
+이 기능은 사용자 commit 기준 2026년 8월에 복원된 작업이다.
+2025년 원 프로젝트 성과와 이후 리팩토링 성과를 공개 문구에서 분리한다.
 
 ---
 
@@ -1034,16 +1172,22 @@ Human-in-the-loop Multi-LLM Pipeline 기반 자기소개서 작성 시스템.
 복수 모델을 사용해 하나의 평가 관점에만 의존하지 않도록 구성했다.
 
 #### GPT
-- 논리성 평가
+- Runtime model: `gpt-4o-mini`
+- 주장 논리성과 글의 구조 평가
 
 #### Gemini
-- 직무 적합성 평가
+- Runtime model: `gemini-2.0-flash`
+- 창의성과 정보의 구체성 평가
 
 #### Claude
-- 표현 및 일관성 평가
+- Runtime model: `claude-3-haiku-20240307`
+- 문맥, 문장 자연스러움과 맞춤법 평가
 
 평가 결과는 숫자 점수나 정량 지표가 아니라
 사용자가 읽을 수 있는 단순 텍스트 피드백 형태로 제공했다.
+
+세 평가 모델은 현재 Backend에서 순차 호출된다. 일부 모델 호출이 실패해도 error text가 반환되지만,
+이를 정상 feedback과 구분하는 구조화된 상태 없이 Feedback row에 저장하는 한계가 있다.
 
 ---
 
@@ -1114,9 +1258,14 @@ My Page
 
 ### 3. Authentication
 
-- Google OAuth 기반 로그인 구현
-- 로그인 이후 JWT 기반 인증 처리
-- 인증된 사용자의 서비스 접근 흐름을 Frontend에 연결
+- 팀이 구현한 Google OAuth 로그인과 service JWT 인증 흐름을 Frontend에 연결
+- Access token 30분, refresh token 7일 설정 및 refresh token 발급 추가
+- HttpOnly refresh cookie와 `/auth/refresh` endpoint 구성
+- logout 시 refresh cookie 제거와 만료 token 처리 추가
+- Frontend session timer hook으로 access token 만료를 감지
+
+현재 코드에서는 Frontend의 자동 refresh 호출과 cookie 포함 요청이 완결된 흐름으로 확인되지 않는다.
+따라서 `refresh token 발급·갱신 endpoint 구현`과 `브라우저 자동 갱신 검증 완료`를 구분한다.
 
 정확한 표현:
 `Google OAuth 기반 로그인 및 JWT 인증 처리`
@@ -1178,7 +1327,7 @@ PostgreSQL
 - PostgreSQL 데이터 저장
 - 사용자 프로필 및 자기소개서 저장
 - HyperCLOVA X 기반 자기소개서 생성
-- Perplexity 기반 기업 / 직무 외부 정보 보강
+- Perplexity 기반 기업 / 직무 외부 정보 보강 `[2026년 후속 복원]`
 - GPT / Gemini / Claude 기반 복수 관점 평가
 - 사용자 요청 기반 재생성 Pipeline
 
@@ -1192,12 +1341,16 @@ PostgreSQL
 
 #### Frontend
 - JavaScript
-- React
+- React 19.1
+- React Router
+- Axios
 
 #### Backend
 - Python
-- FastAPI
+- FastAPI 0.115
 - REST API
+- SQLAlchemy Async
+- Alembic
 
 #### Database
 - PostgreSQL
@@ -1208,10 +1361,10 @@ PostgreSQL
 
 #### AI / LLM
 - HyperCLOVA X
-- GPT
-- Gemini
-- Claude
-- Perplexity
+- GPT-4o-mini
+- Gemini 2.0 Flash
+- Claude 3 Haiku (`claude-3-haiku-20240307`)
+- Perplexity `[2026년 후속 복원]`
 
 ### Planned but Not Completed
 
@@ -1238,7 +1391,7 @@ Portfolio의 실제 사용 기술이나 배포 경험으로 표현하지 않는�
 5. 시스템이 자기소개서 작성에 필요한 입력 항목을 표시한다.
 6. 사용자가 지원 기업, 직무, 사용자 경험, 사용자 스토리, 포함할 내용, 스타일 가이드 등을 입력한다.
 7. 서비스 내부의 사용자 프로필 및 경험 데이터와 입력 내용을 생성 Context에 포함한다.
-8. Perplexity를 통해 지원 기업 및 직무 관련 외부 정보를 보강한다.
+8. 현재 리팩토링본은 Perplexity를 통해 지원 기업 및 직무 관련 외부 정보를 보강한다. `[2026년 후속 복원]`
 9. 구성된 Context를 기반으로 HyperCLOVA X가 자기소개서를 생성한다.
 10. GPT, Gemini, Claude가 각자의 평가 기준에 따라 텍스트 피드백을 생성한다.
 11. 사용자가 생성된 자기소개서와 평가 피드백을 확인한다.
@@ -1278,64 +1431,114 @@ Result
 Learning
 ```
 
-### API Contract Mismatch During Integration
+### Google OAuth Callback / Service JWT Chain
 
 #### Problem
 
-Frontend와 Backend에서 개별적으로 개발한 모듈을 최초 통합하는 과정에서
-로그인 단계부터 요청이 정상적으로 처리되지 않았다.
-
-#### Symptom
-
-- Frontend에서 로그인 관련 요청을 전송했지만 정상 응답을 받지 못함
-- 개별 모듈 개발 단계에서는 발견되지 않았으나 통합 이후 서비스 흐름이 시작 단계에서 중단됨
-- 팀원들이 함께 원인을 확인했으나 최초 통합 미팅에서는 해결하지 못함
+Google 로그인 redirect와 callback endpoint는 존재했지만,
+callback이 Google access token으로 user info를 조회하고 출력한 뒤 종료했다.
+로컬 사용자와 연결된 service JWT가 발급되지 않아 로그인 이후 보호 API 인증으로 이어질 수 없었다.
 
 #### Investigation
 
-최초 미팅 이후 디버깅을 진행하면서
-오류가 발생하는 요청부터 순차적으로 흐름을 추적했다.
+사용자와 다른 팀원이 각자 로그인 흐름을 추적한 뒤 원인을 교차 검증했다.
 
-확인한 항목:
+```text
+Google authorization code
+→ Google access token
+→ Google user info
+→ Local user lookup / create
+→ Application service JWT
+→ Authorization: Bearer <service JWT>
+```
 
-- Frontend에서 요청이 실제로 발생하는지
-- Request URL
-- HTTP Method
-- Request Payload
-- Backend Route
-- Backend Handler 존재 여부
-- 해당 Handler가 위치해야 할 Backend Module
+이 과정에서 Google이 발급한 token과 애플리케이션이 자체 API 인증에 사용하는 JWT가
+서로 다른 책임과 수명을 가진다는 점을 구분했다.
 
 #### Root Cause
 
-Frontend가 호출하도록 설계된 API 요청과
-실제 Backend 구현 사이의 API Contract가 일치하지 않았다.
-
-구체적으로 Frontend가 데이터를 요청하고 있었지만
-해당 요청을 처리할 Backend Handler가 구현되어 있지 않았다.
+endpoint의 존재 여부가 아니라 callback 이후의 인증 chain이 미완성이었다.
+초기 구현은 외부 identity 확인에서 끝났고, 이를 내부 사용자와 service JWT로 변환하는 단계가 없었다.
 
 #### Solution
 
-- 누락된 Backend Handler 구현
-- Handler가 위치할 Backend Module 결정
-- Frontend Request와 Backend Endpoint 연결
-- 통합 흐름을 다시 테스트
+- Google token으로 user info 조회
+- social ID 기준 local user 조회 또는 생성
+- local user ID를 subject로 하는 service JWT 발급
+- Frontend에 access token과 사용자 정보를 반환
+- 이후 사용자 commit에서 refresh token, HttpOnly cookie, 만료·logout 처리를 보강
+
+최종 callback 구현은 다른 팀원 명의 commit `0eaeebd`에 남아 있다.
+사용자의 독립 진단·수정 참여는 회고로 확인되지만 단독 구현으로 쓰지 않는다.
 
 #### Result
 
-누락된 Backend Handler를 추가하고
-Frontend 요청과 Backend Endpoint를 연결하여
-로그인 단계의 통합 오류를 해결했다.
-
-이후 다음 기능들의 전체 통합 테스트를 이어갈 수 있었다.
+Google 인증 결과를 서비스 내부 인증으로 교환하는 흐름이 연결됐고,
+이후 보호 API에서 service JWT를 사용할 수 있는 구조가 만들어졌다.
 
 #### Learning
 
-개별 모듈이 각각 정상적으로 동작하는 것만으로는
-전체 시스템의 통합을 보장할 수 없다는 점을 경험했다.
+OAuth는 외부 인증·권한 위임 절차이고 JWT는 token 표현 형식일 수 있으므로 같은 개념으로 다루면 안 된다.
+외부 provider token의 발급자·대상과 내부 API token의 발급자·대상을 분리해 설계해야 한다.
 
-특히 Frontend–Backend 협업에서는 구현 전에
-다음 항목을 명확하게 정의하고 공유해야 한다는 것을 배웠다.
+---
+
+### My Page API Contract Stabilization — Code Change Record / STAR Candidate
+
+이 사례는 commit diff로 변경 내용은 확인했지만 사용자가 당시 증상과 해결 과정을 기억하지 못한다.
+따라서 공개 STAR로 확정하지 않고, 추가 증거가 나오기 전까지 code change record로만 보관한다.
+
+#### Problem
+
+Commit diff상 Frontend의 My Page가 사용하는 경험·자기소개서 API에서
+Backend response schema, 빈 목록 처리, 소유권 조건을 정리할 필요가 있었다.
+
+#### Symptom
+
+- 경험 CRUD의 입력·수정·출력 schema 경계가 불명확함
+- 빈 자기소개서 목록이 `404`를 반환해 Frontend의 배열 처리와 맞지 않음
+- 사용자별 데이터 조회·수정·삭제에 일관된 소유권 filter가 필요함
+
+#### Investigation
+
+Frontend의 My Page 호출 형태와 Backend의 route, Pydantic schema, ORM 반환 흐름을 대조했다.
+
+확인한 항목:
+
+- 생성·수정·조회 endpoint의 request / response schema
+- commit 이전의 빈 목록 응답 규칙
+- ORM 변경 후 최신 값을 반환하는지
+- read / update / delete에서 현재 사용자 조건이 일관되게 적용되는지
+
+#### Root Cause
+
+Backend가 My Page의 create / update / output을 명확히 분리하지 않았고,
+빈 collection을 오류로 다뤄 Frontend가 기대한 `list` 계약과 맞지 않았다.
+일부 CRUD에는 현재 사용자 기준의 ownership 조건과 갱신 후 반환 절차도 일관되게 필요했다.
+
+#### Solution
+
+- `EssayExperienceCreate`, `EssayExperienceUpdate`, `EssayExperienceOut` schema를 분리
+- CRUD endpoint에 `response_model`을 명시
+- read / update / delete query에 현재 사용자 ownership filter를 적용
+- create / update 후 `db.refresh`로 반환 상태를 동기화
+- delete 응답을 `{ok: true}`로 통일
+- 빈 자기소개서 목록을 `404` 대신 `200 []`로 반환해 Frontend의 배열 계약과 정렬
+
+#### Result
+
+2025-09-17 사용자 commit `5736e7d`에서 위 변경이 확인된다.
+My Page의 데이터 계약과 사용자별 접근 조건을 일관되게 만들었으며,
+빈 목록도 정상 상태로 처리하도록 Frontend–Backend 계약을 정렬했다.
+
+자동화된 회귀 테스트나 당시 HTTP 오류 로그는 저장소에서 확인되지 않으므로
+`전체 통합 오류 완전 해결` 또는 정량 개선 수치로 확장하지 않는다.
+
+#### Learning
+
+CRUD의 경로 존재 여부만 맞추는 것으로는 API 계약이 완성되지 않는다.
+collection의 빈 상태, schema 방향, ownership, 성공 응답 형태까지 함께 정의해야
+Frontend가 예외 분기 없이 안정적으로 사용할 수 있다는 점을 확인했다.
 
 - API Endpoint
 - HTTP Method
@@ -1343,6 +1546,8 @@ Frontend 요청과 Backend Endpoint를 연결하여
 - Response Schema
 - Error Response
 - 담당 Module
+- Empty Collection Semantics
+- Ownership Rule
 
 향후 프로젝트에서는 API Contract를 먼저 정의하고
 이를 기준으로 각 모듈을 개발하는 방식을 우선한다.
@@ -1360,12 +1565,17 @@ Frontend 요청과 Backend Endpoint를 연결하여
 - 사용자 프로필 조회 및 수정
 - 자기소개서 작성 입력
 - 사용자 Context 구성
-- Perplexity 기반 기업 / 직무 정보 보강
 - HyperCLOVA X 기반 자기소개서 생성
 - GPT / Gemini / Claude 텍스트 평가
 - 사용자 요청 기반 자기소개서 재작성
 - 최종 자기소개서 저장
 - 마이페이지에서 자기소개서 조회 및 수정
+
+후속 리팩토링 결과:
+
+- 2026년 8월 Perplexity 기업 / 직무 조사 기능 복원
+- 외부 조사 요청에는 회사명과 직무명만 전달하고 citation을 생성 context에 포함
+- mocked `unittest`로 입력 범위, citation 포함, API key 누락 실패를 검증
 
 ---
 
@@ -1408,8 +1618,15 @@ Frontend 요청과 Backend Endpoint를 연결하여
 
 ### Architecture
 
-프로젝트 기간 내에 추가적인 리팩토링을 수행하여
-모듈 간 결합도를 낮추고 구조를 더 개선하고 싶었으나 완료하지 못했다.
+프로젝트 기간 이후 Frontend와 Backend의 큰 router 파일에 몰린 코드를
+기능과 책임별 새 파일로 분리하는 리팩토링을 진행했다.
+
+이 작업은 runtime traffic이나 LLM 요청을 분산한 것이 아니라
+파일 크기와 module responsibility를 나눈 구조 개선이다.
+따라서 `모듈 로드 분산`이나 `성능 최적화` 대신
+`대형 router를 기능별 module로 분리해 변경 범위를 축소`라고 표현한다.
+
+원본 대비 분리된 파일 목록과 변경량은 refactored source를 추가 대조한 뒤 확정한다.
 
 다시 진행한다면 기능 개발 전에 다음을 먼저 고정한다.
 
@@ -1419,6 +1636,21 @@ Frontend 요청과 Backend Endpoint를 연결하여
 - Error Handling Convention
 - Authentication Flow
 - Data Ownership
+
+### LLM Evaluation
+
+모델별 prompt의 특성에 맞춘 충분한 실험과 정량 평가는 완료하지 못했다.
+향후 보강 항목은 prompt versioning, 고정 평가 dataset, 평가 rubric 및 정량 지표다.
+
+### Code-Verified Risks / Unverified Scope
+
+- GPT·Gemini·Claude feedback은 순차 호출되므로 세 모델 latency가 누적된다.
+- 모델 실패 시 error text가 정상 feedback과 같은 형태로 DB에 저장돼 부분 실패를 구조적으로 구분하기 어렵다.
+- HyperCLOVA X의 정확한 model version은 현재 코드에서 확인되지 않는다.
+- refresh token endpoint는 있으나 Frontend의 자동 refresh와 `credentials` 설정을 포함한 브라우저 E2E는 확인되지 않는다.
+- React route 수준의 보호보다 Backend API 인증에 의존한다.
+- Perplexity 외에는 통합·E2E 자동 테스트가 거의 없고 Frontend test는 기본 placeholder다.
+- AWS 배포는 완료되지 않았으며 Local 동작 범위 이상으로 운영 성과를 확장하지 않는다.
 
 ---
 
@@ -1435,8 +1667,8 @@ Codex는 이 프로젝트를 Portfolio, Project Detail, README로 변환할 때
 - REST API 연동
 - 사용자 프로필 / 자기소개서 조회 및 수정
 - HyperCLOVA X 생성
-- Perplexity Context 보강
-- GPT / Gemini / Claude 텍스트 평가
+- GPT-4o-mini / Gemini 2.0 Flash / Claude 3 Haiku 텍스트 평가 `[팀 구현]`
+- Perplexity Context 보강 `[2026년 후속 복원]`
 - Human-in-the-loop Revision Pipeline
 - PostgreSQL
 - Local 통합 실행
@@ -1448,6 +1680,11 @@ Codex는 이 프로젝트를 Portfolio, Project Detail, README로 변환할 때
 - Frontend의 직접 DB 접근
 - 완료되지 않은 리팩토링
 - 완료되지 않은 세부 기능
+- 초기 `/auth/login` handler를 사용자가 신규 구현했다는 주장
+- Google token과 service JWT를 동일한 token으로 표현
+- 세 feedback 모델을 병렬 호출했다는 주장
+- refresh token 자동 갱신 E2E를 완료했다는 주장
+- router 파일 분리를 runtime load 분산이나 성능 개선으로 표현
 
 ### Preferred Terminology
 - `Multi-LLM Pipeline`
@@ -1456,6 +1693,7 @@ Codex는 이 프로젝트를 Portfolio, Project Detail, README로 변환할 때
 - `REST API를 통한 Backend 연동`
 - `텍스트 피드백`
 - `API Contract 불일치`
+- `빈 collection과 ownership을 포함한 API contract 정렬`
 
 ### Avoid
 - `JWT OAuth 로그인`

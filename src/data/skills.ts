@@ -9,7 +9,7 @@ export const skillCategories: SkillCategory[] = [
   {
     id: 'backend',
     title: 'Backend',
-    skills: ['Python', 'FastAPI', 'REST API', 'SQLAlchemy', 'APScheduler', 'Google OAuth', 'JWT'],
+    skills: ['Python', 'FastAPI', 'REST API', 'OpenAPI', 'SQLAlchemy', 'Pydantic', 'Alembic', 'Google OAuth', 'JWT'],
   },
   {
     id: 'database',
