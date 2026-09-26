@@ -21,28 +21,26 @@ export type Project = {
   period: string
   teamSize: number
   type: string
-  domain?: string
   roles: string[]
   skills: string[]
   result: string
   recognition?: string[]
-  coverImage: string | null
   github: OptionalUrl
   detail: OptionalUrl
   demo: OptionalUrl
-  caseStudy: {
-    architecture: string[]
-    contributions: string[]
-    troubleshooting: Array<{
-      title: string
-      problem: string
-      analysis: string[]
-      changes: string[]
-      result: string
-      limitation?: string
-    }>
-    verification: string[]
-  }
+  architecture: 'daseo' | 'mental-care'
+  stories: Array<{
+    id: string
+    title: string
+    kind?: '후속 구조 개선'
+    focus: string[]
+    problem: string
+    cause: string
+    process: string[]
+    result: string
+    verification: string
+    note?: string
+  }>
 }
 
 export type SkillCategory = {
