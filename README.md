@@ -4,7 +4,7 @@
 
 신입 Software Engineer 지원을 위한 단일 페이지 포트폴리오입니다.
 
-프로젝트 경험을 중심으로 지원자의 역할과 사용 기술을 빠르게 확인할 수 있도록 구성했습니다. 콘텐츠와 UI를 분리하여 프로젝트, 기술, 프로필 정보를 화면 컴포넌트를 수정하지 않고 관리할 수 있습니다.
+프로젝트마다 네 개의 문제 해결 사례를 제목 → 전체 아키텍처 → 문제와 원인 → 해결 과정 → 결과 순서로 보여줍니다. 콘텐츠와 UI를 분리하여 프로젝트, 기술, 프로필 정보를 화면 컴포넌트를 수정하지 않고 관리할 수 있습니다.
 
 현재 페이지는 다음 섹션으로 구성됩니다.
 
@@ -32,7 +32,7 @@ portfolio/
 ├── docs/                          # 포트폴리오 원본 정보 및 작성 지침
 ├── public/
 │   └── assets/
-│       └── projects/              # 프로젝트별 이미지
+│       └── projects/              # 이전 프로젝트 이미지 보관
 ├── src/
 │   ├── components/                # 재사용 가능한 UI 컴포넌트
 │   │   ├── Navigation/
@@ -146,7 +146,7 @@ npm run preview
 1. `src/data/projects.ts`의 `projects` 배열에 `Project` 객체 하나를 추가합니다.
 2. `id`는 다른 프로젝트와 중복되지 않는 값으로 지정합니다.
 3. 확인된 역할과 기술만 `roles`, `skills` 배열에 입력합니다.
-4. 이미지가 있다면 `public/assets/projects/<project-id>/`에 저장하고 `coverImage`에 공개 경로를 입력합니다.
+4. `architecture`에 해당 프로젝트의 아키텍처 유형을 지정하고 `stories`에 문제 해결 사례 네 개를 입력합니다.
 5. 확인된 링크만 `github`, `detail`, `demo`에 입력합니다. 미확정 링크는 `null`로 둡니다.
 
 예시:
@@ -165,14 +165,17 @@ npm run preview
   skills: [],
   result: TODO_VERIFIED_RESULT,
   recognition: [],
-  coverImage: null,
+  architecture: 'daseo',
+  stories: [
+    // 각 사례: id, title, focus, problem, cause, process, result, 선택적 note
+  ],
   github: null,
   detail: null,
   demo: null,
 }
 ```
 
-프로젝트를 추가할 때 `Projects` section, `ProjectCard`, 레이아웃 CSS는 수정하지 않습니다.
+새 프로젝트의 아키텍처 유형을 추가할 때만 `ArchitectureDiagram`에 도식을 추가합니다. 앱 화면 이미지는 프로젝트 섹션에 표시하지 않습니다.
 
 ### Update Skills
 
@@ -183,21 +186,6 @@ npm run preview
 - 실제 프로젝트에서 사용한 것이 확인된 기술만 표시합니다.
 - 숙련도를 별점이나 퍼센트로 표현하지 않습니다.
 
-### Replace Project Images
+### Architecture Diagrams
 
-이미지는 `public/assets` 아래에서 관리합니다.
-
-```text
-public/assets/
-└── projects/
-    └── <project-id>/
-        └── cover.png
-```
-
-프로젝트 대표 이미지는 해당 프로젝트의 `coverImage`에 입력합니다.
-
-```ts
-coverImage: '/assets/projects/<project-id>/cover.png'
-```
-
-프로젝트 이미지 값이 `null`이거나 파일을 불러오지 못하면 broken image icon 대신 neutral placeholder가 표시됩니다. 프로젝트 placeholder에는 해당 프로젝트명이 표시됩니다.
+프로젝트 섹션의 그림은 `src/components/ProjectCard/ArchitectureDiagram.tsx`의 전체 아키텍처 도식입니다. 각 사례의 `focus`에는 강조할 node ID를 입력합니다. 동일 프로젝트의 네 사례는 같은 구조를 사용하며 관련 경로만 강조합니다.

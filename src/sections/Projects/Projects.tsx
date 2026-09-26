@@ -8,7 +8,7 @@ export function Projects() {
       <div className="container projects-section__container">
         <div className="projects-section__heading">
           <span className="section-index">01</span>
-          <SectionTitle title="Selected Projects" description="설계와 구현 과정에서 맡은 역할과 확인된 결과를 소개합니다." />
+          <SectionTitle title="Selected Projects" description="각 프로젝트에서 마주한 네 가지 문제를 어떻게 파악하고 해결했는지 기록했습니다." />
         </div>
         <div className="project-grid">
           {projects.map((project) => <ProjectCard key={project.id} project={project} />)}
