@@ -130,6 +130,7 @@ Google provider token과 애플리케이션 JWT는 발급자, 대상과 용도�
 
 - 초기 commit `8181e19`의 `GET /auth/login`과 callback은 다른 팀원 명의다.
 - 초기 callback은 Google access token으로 user info를 조회·출력하고 종료해 local user 저장과 service JWT 발급이 빠져 있었다.
+- 사용자 설명: Google provider token과 서비스 JWT를 분리하기로 규약했지만 초기 Backend는 첫 Google 로그인에서 받은 token으로 이후 인증까지 처리하는 방향으로 작성됐다. callback handler 함수 자체는 있었으나 내부 처리가 미완성이었다. 코드로 확인되는 범위는 바로 위의 초기 callback 동작이다.
 - commit `0eaeebd`에서 Google token→local user→service JWT 흐름이 다른 팀원 명의로 최종 반영됐다.
 - 사용자는 동일 장애를 팀원과 독립적으로 분석·수정하고 원인을 교차 검증했다고 회고했다.
 - 사용자 commit `156178d`는 access 30분, refresh 7일, HttpOnly cookie, `POST /auth/refresh`, logout cookie 제거와 token 만료 처리를 추가했다.
@@ -143,7 +144,7 @@ Google provider token과 애플리케이션 JWT는 발급자, 대상과 용도�
 - read / update / delete query에 현재 사용자 ownership filter를 적용했다.
 - create / update 후 `db.refresh`로 반환 상태를 동기화했다.
 - 빈 자기소개서 collection을 `404`가 아니라 `200 []`로 반환했다.
-- 당시 실제 UI 증상과 조사 과정은 사용자가 기억하지 못하므로 완성된 STAR로 확정하지 않는다.
+- 사용자 확인: My Page API 정리는 장애 증상을 해결한 작업이 아니라 이후에 진행한 구조 개선이다. 실제 UI 장애나 정량적인 사용자 경험 개선을 주장하지 않는다.
 
 ### Post-project changes
 
@@ -166,7 +167,7 @@ Google provider token과 애플리케이션 JWT는 발급자, 대상과 용도�
 
 #### Situation
 
-Google login route와 callback은 존재했지만 초기 callback은 Google user info를 조회하고 출력한 뒤 종료했다. 외부 identity가 local user와 service JWT로 연결되지 않아 로그인 이후 보호 API 인증으로 이어질 수 없었다.
+Google provider token과 서비스 JWT를 분리하기로 했지만, 초기 Backend는 첫 Google 로그인 token으로 이후 인증까지 처리하는 방향으로 작성됐다. login route와 callback handler는 존재했으나 callback은 Google user info 조회·출력에서 끝났다. local user와 서비스 JWT 연결이 빠져 보호 API 인증으로 이어질 수 없었다.
 
 #### Task
 
@@ -193,15 +194,26 @@ Frontend login request부터 Google token, callback, local user와 service JWT�
 
 OAuth는 외부 인증·권한 위임 절차이고 JWT는 token 표현 형식이다. 외부 provider token을 자체 API token처럼 사용하지 않고, 검증된 identity를 내부 사용자와 service token으로 교환하는 경계를 명시해야 한다.
 
-### change-mypage-contract — My Page API contract 정리
+### change-token-lifecycle — access token 만료 이후 인증 흐름 보강
 
 - Delivery: implemented
 - Ownership: mine
+- Verification: code-verified; browser E2E unverified
+- Publication: public-site
+- Evidence: 사용자 commit `156178d`
+
+짧은 access token만 발급한 초기 구조에는 만료 뒤 인증을 이어갈 Backend 경로가 없었다. access 30분·refresh 7일 정책, HttpOnly refresh cookie, `POST /auth/refresh`와 logout 시 cookie 제거를 추가했다. 코드에서 재발급·로그아웃 경로는 확인되지만, 브라우저 자동 재발급과 cross-origin cookie의 전체 흐름은 확인되지 않았다.
+
+### change-mypage-contract — My Page API contract 정리
+
+- Delivery: implemented
+- Phase: later structural improvement, not an incident
+- Ownership: mine
 - Verification: verified
-- Publication: public-readme
+- Publication: public-site
 - Evidence: commit `5736e7d`
 
-이 기록은 변경 내용은 확인되지만 당시 문제 상황에 대한 기억이 없어 STAR가 아닌 evidence-backed change로 관리한다.
+사용자는 이 작업을 장애 대응이 아닌 후속 구조 개선으로 확인했다. 따라서 장애 증상을 가정해 STAR로 만들지 않고 evidence-backed change로 관리한다.
 
 #### Change
 
@@ -214,7 +226,7 @@ OAuth는 외부 인증·권한 위임 절차이고 JWT는 token 표현 형식이
 
 #### Significance
 
-Frontend가 예측 가능한 response shape을 사용할 수 있게 했고, 사용자별 데이터 접근 조건을 query에 포함했다. 장애 증상과 정량 결과는 만들지 않는다.
+Frontend가 사용할 response shape을 명시하고 사용자별 데이터 접근 조건을 query에 포함했다. 실제 장애 해결이나 정량적 사용자 경험 개선으로 표현하지 않는다.
 
 ### change-router-decomposition — 대형 router 기능별 분리
 
@@ -222,7 +234,7 @@ Frontend가 예측 가능한 response shape을 사용할 수 있게 했고, 사�
 - Phase: post-project
 - Ownership: mine
 - Verification: self-reported
-- Publication: public-readme
+- Publication: public-site
 - Evidence: refactored repository, 상세 대응표 미작성
 
 #### Context
@@ -284,7 +296,7 @@ Frontend와 Backend에서 하나의 router 파일에 여러 기능이 집중돼 
 - refresh cookie와 자동 재발급을 포함한 browser E2E가 확인되지 않는다.
 - React route protection보다 Backend API 인증에 의존한다.
 - 현재 authentication router가 중복 등록된 흔적이 있어 routing 구조 정리가 필요하다.
-- My Page 변경의 당시 symptom과 재발 여부를 기억하지 못한다.
+- My Page 변경은 장애 대응이 아닌 후속 구조 개선이며, 사용자 경험의 전후 효과는 측정하지 않았다.
 - Local 실행을 production 운영 성과로 확대하지 않는다.
 
 ## Publication rules
@@ -313,7 +325,6 @@ Frontend와 Backend에서 하나의 router 파일에 여러 기능이 집중돼 
 
 - [ ] 팀 5명, Frontend 2명·Backend 3명 구성이 맞는지 최종 확인한다.
 - [ ] OAuth 장애에서 사용자가 만든 독립 수정안의 branch, 화면 또는 팀 기록이 남아 있는지 확인한다.
-- [ ] My Page 변경 전 실제 UI 증상이나 status code를 확인할 자료가 있는지 찾는다.
 - [ ] HyperCLOVA X 선택 당시 비교한 model, 비용과 한국어 품질 근거를 정리한다.
 - [ ] 세 feedback prompt의 차이를 보여주는 익명화 예시를 확보한다.
 - [ ] router 분리 전후 파일 대응표를 작성한다.

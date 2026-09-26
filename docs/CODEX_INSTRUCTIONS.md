@@ -2,8 +2,8 @@
 
 ## Objective
 
-PORTFOLIO_MASTER.md와 PROJECT_DATA.md를 기반으로
-신입 Software Engineer Portfolio를 구현한다.
+PORTFOLIO_MASTER.md와 docs/projects/의 프로젝트별 사실 원장을 기반으로
+Backend Engineer Portfolio를 관리한다. PROJECT_DATA.md는 이전 통합 기록이다.
 
 참고 사이트의 장점인
 "한 페이지 세로 스크롤 + 명확한 섹션 구조"는 참고하되
@@ -100,7 +100,7 @@ Keywords:
 - Minimal
 - Spacious
 - Modern
-- Software Engineer
+- Backend Engineer
 
 Colors:
 - neutral background
@@ -115,25 +115,9 @@ Typography:
 
 # Project Card
 
-ProjectCard should accept:
-
-```ts
-type Project = {
-  id: string;
-  title: string;
-  summary: string;
-  period: string;
-  teamSize?: number;
-  roles: string[];
-  skills: string[];
-  coverImage: string;
-  github?: string;
-  detail?: string;
-};
-```
+ProjectCard의 현재 데이터 형식은 `src/types/portfolio.ts`를 따른다. 각 프로젝트는 하나의 전체 아키텍처 유형과 사례 네 개를 가진다.
 
 Project Card display:
-- Cover
 - Project title
 - One-line description
 - Period
@@ -141,12 +125,13 @@ Project Card display:
 - Main technologies
 - GitHub button
 - Detail button (optional)
+- 사례 네 개: 제목 → 전체 아키텍처(관련 경로 강조) → 문제·원인 또는 개선 배경 → 해결 과정 → 결과·확인 근거·한계
 
 ---
 
 # Project Detail Strategy
 
-메인 Portfolio 내부에 기술 세부 설명을 모두 넣지 않는다.
+메인 Portfolio는 사례마다 문제 해결의 판단 흐름을 충분히 보여준다. 앱 화면 이미지와 설명은 넣지 않고, 그림은 전체 아키텍처 도식만 사용한다. My Page API와 router 분리는 장애가 아닌 후속 구조 개선으로 표시한다.
 
 GitHub README:
 - Architecture
@@ -164,6 +149,7 @@ Portfolio:
 - Tech
 - Main result
 - GitHub
+- Project별 네 개의 문제 해결·구조 개선 사례
 
 ---
 
@@ -192,7 +178,7 @@ AI Mental Care:
 
 수정해야 할 것은:
 - project data
-- images
+- architecture diagram (새로운 구조 유형이 필요한 경우)
 - links
 
 가능하면 Skills 또한 data-driven 방식으로 만든다.
@@ -234,8 +220,8 @@ repository 이름에 의존하는 base path 문제를 고려한다.
 코드를 작성하기 전에:
 
 1. PORTFOLIO_MASTER.md 읽기
-2. PROJECT_DATA.md 읽기
-3. ASSET_CHECKLIST.md 읽기
+2. docs/projects/의 관련 프로젝트 파일 읽기
+3. 필요할 때 ASSET_CHECKLIST.md 읽기
 4. 구현 계획 작성
 5. 필요한 TODO 정리
 6. 구현
@@ -245,5 +231,5 @@ repository 이름에 의존하는 base path 문제를 고려한다.
 1. production build
 2. broken link 확인
 3. mobile layout 확인
-4. image fallback 확인
+4. 아키텍처 도식과 모바일 가로 스크롤 확인
 5. console error 확인

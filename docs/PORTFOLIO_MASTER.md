@@ -28,7 +28,7 @@
 
 **Backend Engineer**
 
-FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 배포 환경을 연결하는 Backend Engineer입니다.
+문제를 구조화하고, 서비스의 설계부터 구현과 배포까지 연결하는 Backend Engineer를 지향합니다.
 
 주요 경험:
 - Backend — Python · FastAPI · SQLAlchemy · Pydantic · Alembic
@@ -60,19 +60,20 @@ FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 �
 2. AI Mental Care Service
 3. 추가 프로젝트가 생기면 동일한 카드 구조로 확장
 
-각 프로젝트 카드는 다음 정보만 노출:
+현재 공개 섹션 제목은 `Projects`다. 각 프로젝트의 머리말에는 다음 정보를 보여준다.
 
 - 프로젝트명
 - 한 줄 설명
 - 기간
 - 팀 규모
 - 담당 역할
-- 핵심 기술 4~7개
-- 대표 이미지
+- 확인된 핵심 기술
 - GitHub 링크
 - 상세 README 링크 또는 Detail 링크
 
-메인 페이지에는 상세 구현 설명을 길게 적지 않는다.
+각 프로젝트 아래에는 사례 네 개를 독립된 덩어리로 배치한다. 사례 순서는 제목 → 같은 프로젝트의 전체 아키텍처 도식(관련 경로 강조) → 문제와 원인 또는 개선 배경 → 해결 과정 → 결과·확인 근거·한계다. 앱 화면과 그 설명은 넣지 않는다. My Page API와 router 분리는 장애 사례가 아닌 후속 구조 개선으로 표시한다.
+
+문제와 원인을 같은 문장으로 반복하지 않는다. 결과는 코드 확인, 수동 통합 검증, 미검증 범위를 구분해 적고 측정하지 않은 개선율은 만들지 않는다.
 
 ---
 
@@ -134,6 +135,8 @@ FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 �
 현재 보유/취득 예정 정보를 별도로 구분하고,
 취득하지 않은 자격은 절대 보유 자격처럼 표시하지 않는다.
 
+현재 포트폴리오와 이력서에 기재한 자격 이름: 정보처리기사, ADsP(데이터분석 준전문가), 빅데이터분석기사. 취득일은 확인된 자료가 없어 적지 않는다.
+
 ---
 
 ### Section 06. Contact
@@ -161,7 +164,7 @@ FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 �
 - 여백 크게
 - 섹션 구분 명확
 - 1개의 강조색만 사용
-- 프로젝트 대표 이미지는 동일한 비율 유지
+- 프로젝트에는 전체 아키텍처 도식만 사용하고 앱 화면 이미지는 넣지 않음
 - 기술 배지는 과도하게 사용하지 않음
 - 애니메이션은 최소화
 - 모바일에서도 읽기 쉬운 반응형 구조
@@ -170,7 +173,7 @@ FastAPI와 PostgreSQL을 중심으로 API 계약, 인증, 데이터 모델과 �
 
 Desktop:
 - Hero: 2-column 가능
-- Projects: 2-column cards
+- Projects: 프로젝트별 사례를 세로로 읽는 1-column 구성
 - Skills: 3~4 category columns
 
 Mobile:
@@ -193,9 +196,10 @@ projects:
     title: Multi-LLM Resume Generator
     period: 2025.03 - 2025.11
     team_size: 5
-    summary: 여러 LLM이 생성과 평가를 반복하는 자기소개서 생성 시스템
+    summary: 생성 모델과 관점별 피드백 모델을 분리하고 사용자가 수정 여부를 결정하는 시스템
     github: TODO
-    image: assets/projects/multi-llm/cover.png
+    architecture: daseo
+    stories: [oauth-jwt, token-lifecycle, mypage-contract, router-modules]
 
   - id: mental-care
     title: AI Mental Care
@@ -214,7 +218,8 @@ projects:
       - Docker
       - GCP
     github: TODO
-    image: assets/projects/mental-care/cover.png
+    architecture: mental-care
+    stories: [embedding-dimension, api-contract, cloud-integration, clarifying-question]
 ```
 
 ---
@@ -222,13 +227,14 @@ projects:
 ## 5. GitHub README와 역할 분리
 
 ### Portfolio
-채용 담당자가 빠르게 읽는 문서.
+지원자의 문제 해결 흐름을 보여주는 문서.
 
 포함:
 - 무엇을 만들었는가
 - 내가 무엇을 담당했는가
 - 어떤 기술을 썼는가
 - 어떤 결과가 있었는가
+- 프로젝트별 네 사례의 문제·원인, 해결 과정, 확인 근거와 한계
 
 ### GitHub README
 개발자/면접관이 자세히 보는 문서.
@@ -244,7 +250,7 @@ projects:
 - 실행 방법
 - 프로젝트 구조
 
-Portfolio에서 모든 기술 내용을 설명하지 않는다.
+Portfolio는 사례의 판단 흐름을 보여주고, GitHub README와 원본 코드는 세부 구현 근거를 제공한다.
 
 ---
 

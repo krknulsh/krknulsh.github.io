@@ -1,117 +1,16 @@
 # Portfolio Asset Checklist
 
-포트폴리오 구현 전 준비할 이미지 및 링크 목록.
+현재 v3 프로젝트 섹션은 앱 화면·대표 화면 이미지를 사용하지 않는다. 프로젝트마다 전체 아키텍처 도식을 사례 네 곳에 반복해 보여주고, 사례에 해당하는 경로만 강조한다. 도식의 현재 원본은 `src/components/ProjectCard/ArchitectureDiagram.tsx`다.
 
----
+## 현재 필요한 자료
 
-# 1. AI Mental Care
+- 두 프로젝트 GitHub 저장소의 외부 접근 가능 여부 확인
+- 코드나 발표 자료와 대조할 아키텍처 변경이 생긴 경우 도식 갱신
+- 출품·수상 사실을 공개할 때 사용할 날짜와 증빙 자료
 
-## 반드시 있으면 좋은 이미지
+## 이력서와 외부 링크
 
-- [ ] cover.png
-  - 프로젝트 대표 화면
-  - 포트폴리오 프로젝트 카드에 사용
+- 이력서 Google Doc은 사용자가 제공했으나, 공개 포트폴리오에 연결해도 되는지와 접근 권한은 별도 확인이 필요하다.
+- Blog, LinkedIn, Demo는 확인된 공개 URL이 있을 때만 표시한다.
 
-- [ ] login.png
-  - Google 로그인 화면
-
-- [ ] chat.png
-  - 감정 분석 / Chat / Routine 추천 화면
-
-- [ ] routine.png
-  - 추천 Routine Card 화면
-
-- [ ] daily-report.png
-  - Daily Report
-
-- [ ] weekly-report.png
-  - Weekly Report
-
-- [ ] architecture.png
-  - 전체 Architecture Diagram
-
-## 선택
-
-- [ ] database-erd.png
-- [ ] cloud-architecture.png
-- [ ] rag-flow.png
-
----
-
-# 2. Multi-LLM Resume Generator
-
-현재 이미지 자료 필요.
-
-- [ ] cover.png
-- [ ] main-screen.png
-- [ ] result-screen.png
-- [ ] architecture.png
-- [ ] llm-pipeline.png
-
----
-
-# 3. Link
-
-- [ ] GitHub Profile URL
-- [ ] AI Mental Care Repository URL
-- [ ] Multi-LLM Repository URL
-- [ ] Email
-- [ ] Resume URL/PDF
-- [ ] Blog
-- [ ] LinkedIn (있다면)
-- [ ] Demo URL (서비스가 아직 살아 있다면)
-
----
-
-# 4. Diagram Rule
-
-다이어그램은 스타일을 통일한다.
-
-권장:
-- 흰색 또는 매우 연한 배경
-- 단순한 박스 구조
-- 서비스/DB/Cloud 아이콘만 제한적으로 사용
-- 화살표 방향 통일
-- 지나친 세부 클래스/함수 레벨 표현 금지
-
-Portfolio Diagram:
-- 5~9개의 주요 컴포넌트
-
-README Diagram:
-- 필요하면 더 상세하게 표현
-
----
-
-# 5. Image Folder Convention
-
-```text
-assets/
-└── projects/
-    ├── mental-care/
-    │   ├── cover.png
-    │   ├── login.png
-    │   ├── chat.png
-    │   ├── routine.png
-    │   ├── daily-report.png
-    │   ├── weekly-report.png
-    │   ├── architecture.png
-    │   └── rag-flow.png
-    │
-    └── multi-llm/
-        ├── cover.png
-        ├── main-screen.png
-        ├── result-screen.png
-        ├── architecture.png
-        └── pipeline.png
-```
-
----
-
-# 6. 이미지가 없어도 개발 가능?
-
-가능하다.
-
-처음에는 placeholder를 넣어 구조를 완성하고,
-실제 이미지를 준비한 뒤 동일한 파일명으로 교체한다.
-
-즉 이미지를 모두 준비한 뒤 개발을 시작할 필요는 없다.
+앱 화면, 로그인 화면, 추천 카드, 리포트 화면은 포트폴리오 프로젝트 섹션의 필수 자산이 아니다. 필요하면 프로젝트 README에서 구현 증거로 별도 관리한다.

@@ -97,8 +97,8 @@ Cloud SQL · Memorystore · Cloud Run · Firebase Hosting
 1. Google identity를 Backend가 검증하고 서비스용 access / refresh JWT를 발급한다.
 2. 사용자 입력과 session은 PostgreSQL에 저장한다.
 3. Gemini 2.5 Flash가 감정·상황과 confidence를 분석한다.
-4. 정보가 부족하면 추가 질문을 반환한다.
-5. 정보가 충분하면 사용자 맥락을 embedding하고 pgvector에서 상위 5개 후보를 검색한다.
+4. 감정 confidence 또는 상황 clarity가 0.7 미만이면 추가 질문을 반환한다.
+5. 후속 입력이 오면 첫 입력과 합쳐 감정·상황을 다시 분석한다. 정보가 충분해진 요약을 embedding하고 pgvector에서 상위 5개 후보를 검색한다.
 6. 검색 결과와 사용자 상황을 이용해 공감형 응답과 행동 루틴을 구성한다.
 7. 진행 중 상태는 Redis에 저장하고 세션 종료 결과는 report로 영속화한다.
 
@@ -125,6 +125,12 @@ Cloud SQL · Memorystore · Cloud Run · Firebase Hosting
 - 감정 confidence와 상황 clarity의 기준값: 0.7
 - distance threshold와 metadata filter는 없다.
 - 대표 루틴은 현재 검색 결과의 첫 항목이다.
+
+### Clarifying question and changed context
+
+- 사용자 설명: 첫 입력이 감정·상황을 충분히 표현하지 못했을 때 추가 질문으로 정보를 더 받는다. 후속 입력에서 앞선 이야기와 다른 중요한 사건이 드러나면 새 맥락을 분석과 추천에 반영하려는 설계다.
+- 코드 확인: confidence 또는 clarity가 0.7 미만이면 `NeedMoreInfoResponse`를 반환한다. 후속 요청의 `flag=1` 경로는 세션의 첫 입력과 최신 입력을 합쳐 `run_full_rag`에 전달하고 감정·상황 분석과 검색을 다시 실행한다.
+- 별도의 키워드 변화 감지 규칙은 확인되지 않는다. 후속 입력을 합쳐 재분석하는 방식이며, 반복 질문의 관련성이나 추천 품질 개선율을 측정한 평가셋은 없다.
 
 ### Authentication and state
 
@@ -187,7 +193,7 @@ Embedding model은 단순한 외부 API 선택이 아니라 DB column, index, �
 - Delivery: partial
 - Ownership: shared
 - Verification: verified
-- Publication: public-readme
+- Publication: public-site
 - Evidence: commits `b9d0382`, `f88b087`, request/response schema
 
 #### Situation
@@ -223,7 +229,7 @@ Embedding model은 단순한 외부 API 선택이 아니라 DB column, index, �
 - Delivery: implemented
 - Ownership: mine
 - Verification: self-reported
-- Publication: public-readme
+- Publication: public-site
 - Evidence: Docker·배포 설정과 deployment Git history
 
 #### Situation
@@ -250,6 +256,27 @@ Google 로그인, 사용자 입력, 감정·상황 분석, RAG 검색, 루틴 �
 
 Cloud 배포는 container 실행만의 문제가 아니다. runtime, secret, database migration, private network와 frontend origin을 하나의 시스템 경계로 검증해야 한다.
 
+### change-clarifying-question — 정보 부족 시 추가 질문과 후속 입력 재분석
+
+- Delivery: implemented
+- Ownership: shared
+- Verification: code-verified; recommendation quality unmeasured
+- Publication: public-site
+- Evidence: `chat_service.py`의 0.7 분기, `chat_message_service.py`의 입력 병합과 `run_full_rag` 호출
+
+#### Situation
+
+첫 입력에 감정·상황 단서가 부족하거나 후속 입력에서 중요한 사건이 드러나면 처음 입력만으로 추천을 구성하기 어려웠다.
+
+#### Action
+
+- confidence 또는 clarity가 0.7 미만이면 추가 질문을 반환한다.
+- 후속 요청의 첫 입력과 최신 입력을 합쳐 감정·상황을 다시 분석하고 새 요약으로 루틴을 검색한다.
+
+#### Result and limitation
+
+정보가 부족할 때 질문을 돌려주고 후속 입력을 반영해 추천을 다시 구성하는 코드 경로를 만들었다. 별도 키워드 변화 감지 규칙과 관련성 평가셋은 없어 추천 품질 개선율을 주장하지 않는다.
+
 ## Technical decisions
 
 ### PostgreSQL + pgvector
@@ -272,6 +299,7 @@ Cloud 배포는 container 실행만의 문제가 아니다. runtime, secret, dat
 
 - Context: 감정·상황이 불명확한 입력에 바로 행동을 추천하면 관련성이 낮아질 수 있다.
 - Decision: confidence 또는 clarity가 0.7 미만이면 추가 질문을 반환했다.
+- Follow-up: 첫 입력과 후속 입력을 합쳐 다시 분석하고 새 요약으로 검색한다. 중요한 사건의 변화는 별도 키워드 규칙이 아니라 이 재분석 경로로 반영한다.
 - Trade-off: 고정 threshold의 적절성을 별도 dataset으로 평가하지 않았다.
 
 ### Serverless deployment
