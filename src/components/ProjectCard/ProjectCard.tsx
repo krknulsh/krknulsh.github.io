@@ -1,8 +1,23 @@
+import { useState } from 'react'
 import type { Project } from '../../types/portfolio'
-import { ArchitectureDiagram } from './ArchitectureDiagram'
 
 type ProjectCardProps = {
   project: Project
+}
+
+function ProjectImage({ src, title }: { src: string | null; title: string }) {
+  const [hasError, setHasError] = useState(false)
+
+  if (!src || hasError) {
+    return (
+      <div className="project-card__placeholder" role="img" aria-label={`${title} 이미지 준비 중`}>
+        <span className="project-card__placeholder-label">Project preview</span>
+        <strong>{title}</strong>
+      </div>
+    )
+  }
+
+  return <img src={src} alt={`${title} 대표 화면`} onError={() => setHasError(true)} />
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -14,68 +29,93 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <article className="project-card">
-      <header className="project-card__header">
-        <p className="project-card__meta">{project.period} · {project.teamSize}명 · {project.type}</p>
-        <h3>{project.title}</h3>
-        <p className="project-card__summary">{project.summary}</p>
-        <p className="project-card__role"><strong>담당</strong> {project.roles.join(' · ')}</p>
-        <p className="project-card__result">{project.result}</p>
-        <div className="project-card__footer">
-          <ul className="inline-list" aria-label="사용 기술">
-            {project.skills.map((skill) => <li key={skill}>{skill}</li>)}
-          </ul>
-          {links.length > 0 && (
-            <div className="project-card__links">
-              {links.map((link) => (
-                <a key={link.label} href={link.url ?? undefined} target="_blank" rel="noreferrer">
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-        {project.recognition && project.recognition.length > 0 && (
-          <p className="project-card__recognition">{project.recognition.join(' · ')}</p>
-        )}
-      </header>
-
-      <div className="project-card__stories">
-        {project.stories.map((story, index) => {
-          const storyId = `${project.id}-${story.id}`
-          return (
-            <section className="project-case" id={storyId} key={story.id} aria-labelledby={`${storyId}-title`}>
-              <div className="project-case__heading">
-                <span className="project-case__number">{String(index + 1).padStart(2, '0')} / {String(project.stories.length).padStart(2, '0')}</span>
-                <h4 id={`${storyId}-title`}>{story.title}</h4>
-              </div>
-              <figure className="project-case__figure">
-                <ArchitectureDiagram project={project.architecture} focus={story.focus} storyId={storyId} title={story.title} />
-                <figcaption>전체 아키텍처 · 파란색은 이 사례에서 다루는 경로</figcaption>
-              </figure>
-              <div className="project-case__narrative">
-                <section>
-                  <h5>문제와 원인</h5>
-                  <div>
-                    <p>{story.problem}</p>
-                    <p>{story.cause}</p>
-                  </div>
-                </section>
-                <section>
-                  <h5>해결 과정</h5>
-                  <ol>{story.process.map((step) => <li key={step}>{step}</li>)}</ol>
-                </section>
-                <section className="project-case__outcome">
-                  <h5>결과</h5>
-                  <div>
-                    <p>{story.result}</p>
-                    {story.note && <p className="project-case__note">{story.note}</p>}
-                  </div>
-                </section>
-              </div>
-            </section>
-          )
-        })}
+      <div className="project-card__image">
+        <ProjectImage src={project.coverImage} title={project.title} />
       </div>
+      <div className="project-card__body">
+        <div className="project-card__heading">
+          <p className="project-card__meta">
+            {project.period} · {project.teamSize}명 · {project.type}
+          </p>
+          <h3>{project.title}</h3>
+          {project.domain && <p className="project-card__domain">{project.domain}</p>}
+        </div>
+        <p className="project-card__summary">{project.summary}</p>
+
+        {project.roles.length > 0 && (
+          <div>
+            <h4>Role</h4>
+            <ul className="inline-list">
+              {project.roles.map((role) => <li key={role}>{role}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {project.skills.length > 0 && (
+          <div>
+            <h4>Tech</h4>
+            <ul className="inline-list">
+              {project.skills.map((skill) => <li key={skill}>{skill}</li>)}
+            </ul>
+          </div>
+        )}
+
+        <div className="project-card__result">
+          <h4>Technical Result</h4>
+          <p>{project.result}</p>
+        </div>
+
+        {project.recognition && project.recognition.length > 0 && (
+          <div className="project-card__recognition">
+            <h4>Recognition</h4>
+            <ul>
+              {project.recognition.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {links.length > 0 && (
+          <div className="project-card__links">
+            {links.map((link) => (
+              <a key={link.label} href={link.url ?? undefined} target="_blank" rel="noreferrer">
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      <details className="project-card__details">
+        <summary>Technical case study</summary>
+        <div className="project-card__details-content">
+          <section>
+            <h4>Architecture</h4>
+            <ul>{project.caseStudy.architecture.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+          <section>
+            <h4>Technical Contribution</h4>
+            <ul>{project.caseStudy.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+          <section>
+            <h4>Troubleshooting</h4>
+            {project.caseStudy.troubleshooting.map((story) => (
+              <article className="troubleshooting" key={story.title}>
+                <h5>{story.title}</h5>
+                <dl>
+                  <div><dt>문제</dt><dd>{story.problem}</dd></div>
+                  <div><dt>분석</dt><dd><ul>{story.analysis.map((item) => <li key={item}>{item}</li>)}</ul></dd></div>
+                  <div><dt>변경</dt><dd><ul>{story.changes.map((item) => <li key={item}>{item}</li>)}</ul></dd></div>
+                  <div><dt>결과</dt><dd>{story.result}</dd></div>
+                  {story.limitation && <div><dt>한계</dt><dd>{story.limitation}</dd></div>}
+                </dl>
+              </article>
+            ))}
+          </section>
+          <section>
+            <h4>Verification & Limitations</h4>
+            <ul>{project.caseStudy.verification.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+        </div>
+      </details>
     </article>
   )
 }
